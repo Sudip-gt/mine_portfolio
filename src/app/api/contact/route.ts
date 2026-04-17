@@ -1,11 +1,5 @@
+import { contactSchema } from "@/lib/contactSchema";
 import { NextRequest, NextResponse } from "next/server";
-import { z } from "zod";
-
-const contactSchema = z.object({
-    name: z.string().min(2, "Name must be at least 2 characters"),
-    email: z.string().email("Invalid email address"),
-    message: z.string().min(10, "Message must be at least 10 characters"),
-});
 
 export async function POST(req: NextRequest) {
     try {

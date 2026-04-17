@@ -1,7 +1,7 @@
 "use client";
 
 import { StaggerContainer, StaggerItem } from "@/components/animations";
-import { techStack } from "@/data/portfolio";
+import { devIconMap, techStack } from "@/data/portfolio";
 import { motion } from "framer-motion";
 
 const categories = [
@@ -10,28 +10,6 @@ const categories = [
   { key: "database", label: "Database", color: "from-orange-500/20 to-amber-500/20", border: "border-orange-500/30", dot: "bg-orange-400" },
   { key: "tools", label: "Tools & DevOps", color: "from-purple-500/20 to-violet-500/20", border: "border-purple-500/30", dot: "bg-purple-400" },
 ] as const;
-
-// Map tech names to DevIcon class names
-const devIconMap: Record<string, string> = {
-  "HTML5": "devicon-html5-plain colored",
-  "CSS3": "devicon-css3-plain colored",
-  "JavaScript": "devicon-javascript-plain colored",
-  "TypeScript": "devicon-typescript-plain colored",
-  "React": "devicon-react-original colored",
-  "Next.js": "devicon-nextjs-plain",
-  "Redux Toolkit": "devicon-redux-original colored",
-  "Tailwind CSS": "devicon-tailwindcss-plain colored",
-  "Node.js": "devicon-nodejs-plain colored",
-  "Express.js": "devicon-express-original",
-  "NestJS": "devicon-nestjs-plain colored",
-  "MongoDB": "devicon-mongodb-plain colored",
-  "PostgreSQL": "devicon-postgresql-plain colored",
-  "MySQL": "devicon-mysql-plain colored",
-  "Prisma": "devicon-prisma-original",
-  "Git": "devicon-git-plain colored",
-  "GitHub": "devicon-github-original",
-  "Docker": "devicon-docker-plain colored",
-};
 
 function TechBadge({ name }: { name: string }) {
   const iconClass = devIconMap[name];

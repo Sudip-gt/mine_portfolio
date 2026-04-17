@@ -9,6 +9,29 @@ export const personalInfo = {
     cvUrl: "/cv.pdf",
 };
 
+// Map tech names to DevIcon CSS class names.
+// Add new entries here when you add new techs to techStack — no component changes needed.
+export const devIconMap: Record<string, string> = {
+    "HTML5": "devicon-html5-plain colored",
+    "CSS3": "devicon-css3-plain colored",
+    "JavaScript": "devicon-javascript-plain colored",
+    "TypeScript": "devicon-typescript-plain colored",
+    "React": "devicon-react-original colored",
+    "Next.js": "devicon-nextjs-plain",
+    "Redux Toolkit": "devicon-redux-original colored",
+    "Tailwind CSS": "devicon-tailwindcss-plain colored",
+    "Node.js": "devicon-nodejs-plain colored",
+    "Express.js": "devicon-express-original",
+    "NestJS": "devicon-nestjs-plain colored",
+    "MongoDB": "devicon-mongodb-plain colored",
+    "PostgreSQL": "devicon-postgresql-plain colored",
+    "MySQL": "devicon-mysql-plain colored",
+    "Prisma": "devicon-prisma-original",
+    "Git": "devicon-git-plain colored",
+    "GitHub": "devicon-github-original",
+    "Docker": "devicon-docker-plain colored",
+};
+
 export const techStack = {
     frontend: [
         { name: "HTML5", icon: "html" },

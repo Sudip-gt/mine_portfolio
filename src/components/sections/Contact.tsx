@@ -1,20 +1,9 @@
 "use client";
 
 import { personalInfo } from "@/data/portfolio";
+import { useContactForm } from "@/hooks/useContactForm";
 import { cn } from "@/lib/utils";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-
-const contactSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
-  email: z.string().email("Please enter a valid email"),
-  message: z.string().min(10, "Message must be at least 10 characters"),
-});
-
-type ContactForm = z.infer<typeof contactSchema>;
 
 function GithubIcon() {
   return (
@@ -45,58 +34,26 @@ const contactDetails = [
   {
     icon: <MailIcon />,
     label: "Email",
-    value: "sudippaudel6561@gmail.com",
+    value: personalInfo.email,
     href: `mailto:${personalInfo.email}`,
   },
   {
     icon: <GithubIcon />,
     label: "GitHub",
-    value: "github.com/sudip-gt",
+    value: personalInfo.github.replace("https://", ""),
     href: personalInfo.github,
   },
   {
     icon: <LinkedinIcon />,
     label: "LinkedIn",
-    value: "https://www.linkedin.com/in/sudip-paudel-78537b289",
+    value: personalInfo.linkedin.replace("https://", ""),
     href: personalInfo.linkedin,
   },
 ];
 
 export default function Contact() {
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
-  const [serverMessage, setServerMessage] = useState("");
-
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<ContactForm>({
-    resolver: zodResolver(contactSchema),
-  });
-
-  const onSubmit = async (data: ContactForm) => {
-    setStatus("loading");
-    try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
-      const json = await res.json();
-      if (res.ok) {
-        setStatus("success");
-        setServerMessage(json.message);
-        reset();
-      } else {
-        setStatus("error");
-        setServerMessage("Something went wrong. Please try again.");
-      }
-    } catch {
-      setStatus("error");
-      setServerMessage("Network error. Please try again.");
-    }
-  };
+  const { form, status, serverMessage, onSubmit } = useContactForm();
+  const { register, handleSubmit, formState: { errors } } = form;
 
   return (
     <section id="contact" className="section-padding bg-[#0f0f0f]">
