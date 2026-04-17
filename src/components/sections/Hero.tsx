@@ -1,7 +1,8 @@
 "use client";
 
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { personalInfo } from "@/data/portfolio";
-import { motion } from "framer-motion";
 
 function GithubIcon({ size = 22 }: { size?: number }) {
   return (
@@ -36,16 +37,42 @@ function ArrowDownIcon({ size = 22 }: { size?: number }) {
   );
 }
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 30 },
-  visible: (delay = 0) => ({
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, delay, ease: "easeOut" },
-  }),
-};
+const roles = [
+  "Full Stack Developer",
+  "React & Next.js Engineer",
+  "Node.js & NestJS Developer",
+  "MERN Stack Developer",
+];
+
+const particles = [
+  { id: 1, left: "10%", top: "20%", size: 3, duration: 4, delay: 0 },
+  { id: 2, left: "85%", top: "15%", size: 2, duration: 5, delay: 0.5 },
+  { id: 3, left: "25%", top: "75%", size: 4, duration: 6, delay: 1 },
+  { id: 4, left: "70%", top: "60%", size: 2, duration: 4.5, delay: 1.5 },
+  { id: 5, left: "50%", top: "10%", size: 3, duration: 5.5, delay: 0.8 },
+  { id: 6, left: "90%", top: "80%", size: 2, duration: 4, delay: 2 },
+  { id: 7, left: "15%", top: "50%", size: 3, duration: 6, delay: 0.3 },
+  { id: 8, left: "60%", top: "85%", size: 2, duration: 5, delay: 1.2 },
+];
+
+function fadeUpVariant(delay: number) {
+  return {
+    initial: { opacity: 0, y: 30 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.6, delay, ease: "easeOut" as const },
+  };
+}
 
 export default function Hero() {
+  const [roleIndex, setRoleIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setRoleIndex((prev) => (prev + 1) % roles.length);
+    }, 2800);
+    return () => clearInterval(interval);
+  }, []);
+
   const scrollTo = (href: string) => {
     document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
   };
@@ -65,16 +92,46 @@ export default function Hero() {
         }}
       />
 
-      {/* Glow blob */}
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-indigo-600/10 rounded-full blur-3xl pointer-events-none" />
+      {/* Animated glow blobs */}
+      <motion.div
+        className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full blur-3xl pointer-events-none"
+        animate={{
+          background: [
+            "radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%)",
+            "radial-gradient(circle, rgba(139,92,246,0.12) 0%, transparent 70%)",
+            "radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%)",
+          ],
+        }}
+        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+      />
+      <motion.div
+        className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full blur-3xl pointer-events-none opacity-40"
+        animate={{
+          background: [
+            "radial-gradient(circle, rgba(139,92,246,0.08) 0%, transparent 70%)",
+            "radial-gradient(circle, rgba(99,102,241,0.08) 0%, transparent 70%)",
+            "radial-gradient(circle, rgba(139,92,246,0.08) 0%, transparent 70%)",
+          ],
+          scale: [1, 1.1, 1],
+        }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+      />
+
+      {/* Floating particles */}
+      {particles.map((p) => (
+        <motion.div
+          key={p.id}
+          className="absolute rounded-full bg-indigo-400/30 pointer-events-none"
+          style={{ left: p.left, top: p.top, width: p.size, height: p.size }}
+          animate={{ y: [-10, 10, -10], opacity: [0.2, 0.6, 0.2] }}
+          transition={{ duration: p.duration, repeat: Infinity, delay: p.delay, ease: "easeInOut" }}
+        />
+      ))}
 
       <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 text-center">
         {/* Badge */}
         <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          custom={0.1}
+          {...fadeUpVariant(0.1)}
           className="inline-flex items-center gap-2 px-4 py-1.5 mb-6 text-xs font-medium text-indigo-400 border border-indigo-400/30 rounded-full bg-indigo-400/5"
         >
           <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse" />
@@ -83,10 +140,7 @@ export default function Hero() {
 
         {/* Name */}
         <motion.h1
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          custom={0.2}
+          {...fadeUpVariant(0.2)}
           className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white mb-4 tracking-tight"
         >
           Hi, I&apos;m{" "}
@@ -95,23 +149,35 @@ export default function Hero() {
           </span>
         </motion.h1>
 
-        {/* Title */}
-        <motion.h2
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          custom={0.35}
-          className="text-xl sm:text-2xl font-medium text-zinc-400 mb-6"
+        {/* Cycling role */}
+        <motion.div
+          {...fadeUpVariant(0.35)}
+          className="h-10 flex items-center justify-center mb-6"
         >
-          {personalInfo.title}
-        </motion.h2>
+          <AnimatePresence mode="wait">
+            <motion.h2
+              key={roleIndex}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -12 }}
+              transition={{ duration: 0.4, ease: "easeInOut" }}
+              className="text-xl sm:text-2xl font-medium text-zinc-400"
+            >
+              {roles[roleIndex]}
+              <motion.span
+                animate={{ opacity: [1, 0, 1] }}
+                transition={{ duration: 0.8, repeat: Infinity }}
+                className="ml-1 text-indigo-400"
+              >
+                |
+              </motion.span>
+            </motion.h2>
+          </AnimatePresence>
+        </motion.div>
 
         {/* Tagline */}
         <motion.p
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          custom={0.5}
+          {...fadeUpVariant(0.5)}
           className="text-base sm:text-lg text-zinc-500 max-w-2xl mx-auto mb-10 leading-relaxed"
         >
           {personalInfo.tagline}
@@ -119,66 +185,59 @@ export default function Hero() {
 
         {/* CTA Buttons */}
         <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          custom={0.65}
+          {...fadeUpVariant(0.65)}
           className="flex flex-wrap items-center justify-center gap-4 mb-14"
         >
-          <button
+          <motion.button
             onClick={() => scrollTo("#projects")}
-            className="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium rounded-lg transition-all duration-200 hover:scale-105 hover:shadow-lg hover:shadow-indigo-500/25"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.97 }}
+            className="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium rounded-lg transition-colors shadow-lg shadow-indigo-500/20"
           >
             View Projects
-          </button>
-          <a
+          </motion.button>
+          <motion.a
             href={personalInfo.cvUrl}
             download
-            className="px-6 py-3 border border-zinc-700 hover:border-indigo-400 text-zinc-300 hover:text-white text-sm font-medium rounded-lg transition-all duration-200 hover:scale-105"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.97 }}
+            className="px-6 py-3 border border-zinc-700 hover:border-indigo-400 text-zinc-300 hover:text-white text-sm font-medium rounded-lg transition-colors"
           >
             Download CV
-          </a>
-          <button
+          </motion.a>
+          <motion.button
             onClick={() => scrollTo("#contact")}
-            className="px-6 py-3 border border-zinc-700 hover:border-indigo-400 text-zinc-300 hover:text-white text-sm font-medium rounded-lg transition-all duration-200 hover:scale-105"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.97 }}
+            className="px-6 py-3 border border-zinc-700 hover:border-indigo-400 text-zinc-300 hover:text-white text-sm font-medium rounded-lg transition-colors"
           >
             Contact Me
-          </button>
+          </motion.button>
         </motion.div>
 
         {/* Social Links */}
         <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          custom={0.8}
+          {...fadeUpVariant(0.8)}
           className="flex items-center justify-center gap-5 mb-14"
         >
-          <a
-            href={personalInfo.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-2 text-zinc-500 hover:text-white transition-colors"
-            aria-label="GitHub"
-          >
-            <GithubIcon size={22} />
-          </a>
-          <a
-            href={personalInfo.linkedin}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-2 text-zinc-500 hover:text-white transition-colors"
-            aria-label="LinkedIn"
-          >
-            <LinkedinIcon size={22} />
-          </a>
-          <a
-            href={`mailto:${personalInfo.email}`}
-            className="p-2 text-zinc-500 hover:text-white transition-colors"
-            aria-label="Email"
-          >
-            <MailIcon size={22} />
-          </a>
+          {[
+            { href: personalInfo.github, label: "GitHub", icon: <GithubIcon size={22} /> },
+            { href: personalInfo.linkedin, label: "LinkedIn", icon: <LinkedinIcon size={22} /> },
+            { href: `mailto:${personalInfo.email}`, label: "Email", icon: <MailIcon size={22} /> },
+          ].map((social) => (
+            <motion.a
+              key={social.label}
+              href={social.href}
+              target={social.label !== "Email" ? "_blank" : undefined}
+              rel="noopener noreferrer"
+              aria-label={social.label}
+              whileHover={{ scale: 1.2 }}
+              whileTap={{ scale: 0.9 }}
+              className="p-2 text-zinc-500 hover:text-indigo-400 transition-colors"
+            >
+              {social.icon}
+            </motion.a>
+          ))}
         </motion.div>
 
         {/* Scroll down indicator */}

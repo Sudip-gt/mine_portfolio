@@ -1,5 +1,6 @@
 "use client";
 
+import { StaggerContainer, StaggerItem } from "@/components/animations";
 import { techStack } from "@/data/portfolio";
 import { motion } from "framer-motion";
 
@@ -93,11 +94,13 @@ export default function TechStack() {
                 </div>
 
                 {/* Badges */}
-                <div className="flex flex-wrap gap-2">
+                <StaggerContainer className="flex flex-wrap gap-2" delay={i * 0.1}>
                   {items.map((tech) => (
-                    <TechBadge key={tech.name} name={tech.name} />
+                    <StaggerItem key={tech.name}>
+                      <TechBadge name={tech.name} />
+                    </StaggerItem>
                   ))}
-                </div>
+                </StaggerContainer>
               </motion.div>
             );
           })}

@@ -1,5 +1,6 @@
 "use client";
 
+import { CountUp } from "@/components/animations";
 import { personalInfo } from "@/data/portfolio";
 import { motion } from "framer-motion";
 
@@ -77,13 +78,13 @@ export default function About() {
             {/* Stats row */}
             <div className="flex flex-wrap gap-8 pt-4">
               {[
-                { value: "3+", label: "Years Learning" },
-                { value: "10+", label: "Projects Built" },
-                { value: "2", label: "Tech Stacks" },
+                { end: 3, suffix: "+", label: "Years Learning" },
+                { end: 10, suffix: "+", label: "Projects Built" },
+                { end: 2, suffix: "", label: "Tech Stacks" },
               ].map((stat) => (
                 <div key={stat.label}>
                   <p className="text-3xl font-bold text-indigo-400">
-                    {stat.value}
+                    <CountUp end={stat.end} suffix={stat.suffix} />
                   </p>
                   <p className="text-sm text-zinc-500 mt-1">{stat.label}</p>
                 </div>
