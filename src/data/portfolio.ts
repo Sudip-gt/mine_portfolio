@@ -101,6 +101,30 @@ export const projects = [
 export const experience = [
     {
         id: 1,
+        role: "Associate Software Engineer",
+        organization: "CloudTech",
+        period: "Sep 2025 - Present · 8 mos",
+        description:
+            "Working as a full-stack developer specializing in the MERN stack to build scalable web applications.",
+        highlights: [
+            "Developed full-stack web applications using JavaScript and MongoDB",
+            "Collaborated with cross-functional teams to deliver high-quality software solutions",
+        ],
+    },
+    {
+        id: 2,
+        role: "MERN Intern",
+        organization: "CloudTech",
+        period: "May 2025 - Sep 2025 · 5 mos",
+        description:
+            "Internship focused on learning and applying MERN stack technologies in real-world projects.",
+        highlights: [
+            "Gained hands-on experience with React.js and Node.js",
+            "Worked on database design and API development with MongoDB",
+        ],
+    },
+    {
+        id: 3,
         role: "STEAM Officer",
         organization: "Community Organization",
         period: "2022 – Present",
@@ -113,7 +137,7 @@ export const experience = [
         ],
     },
     {
-        id: 2,
+        id: 4,
         role: "Self-Taught Full Stack Developer",
         organization: "Independent Learning",
         period: "2021 – Present",
