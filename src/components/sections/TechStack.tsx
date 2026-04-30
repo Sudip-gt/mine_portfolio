@@ -1,6 +1,7 @@
 "use client";
 
 import { StaggerContainer, StaggerItem } from "@/components/animations";
+import SkillCarousel from "@/components/SkillCarousel";
 import { devIconMap, techStack } from "@/data/portfolio";
 import { motion } from "framer-motion";
 
@@ -47,6 +48,17 @@ export default function TechStack() {
           <h2 className="text-3xl sm:text-4xl font-bold text-white">
             Tech Stack
           </h2>
+        </motion.div>
+
+        {/* 3D Rotating Carousel */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="mb-16 overflow-hidden"
+        >
+          <SkillCarousel />
         </motion.div>
 
         {/* Category cards */}
