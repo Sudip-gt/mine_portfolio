@@ -1,7 +1,7 @@
 "use client";
 
 import { personalInfo } from "@/data/portfolio";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useEffect, useState } from "react";
 
 function GithubIcon({ size = 22 }: { size?: number }) {
@@ -65,13 +65,18 @@ function fadeUpVariant(delay: number) {
 
 export default function Hero() {
   const [roleIndex, setRoleIndex] = useState(0);
+  const reducedMotion = useReducedMotion();
 
   useEffect(() => {
+    if (reducedMotion) {
+      return;
+    }
+
     const interval = setInterval(() => {
       setRoleIndex((prev) => (prev + 1) % roles.length);
     }, 2800);
     return () => clearInterval(interval);
-  }, []);
+  }, [reducedMotion]);
 
   const scrollTo = (href: string) => {
     document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
@@ -95,18 +100,19 @@ export default function Hero() {
       {/* Animated glow blobs */}
       <motion.div
         className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full blur-3xl pointer-events-none"
-        animate={{
+        animate={reducedMotion ? undefined : {
           background: [
             "radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%)",
             "radial-gradient(circle, rgba(139,92,246,0.12) 0%, transparent 70%)",
             "radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%)",
           ],
         }}
-        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+        transition={reducedMotion ? undefined : { duration: 6, repeat: Infinity, ease: "easeInOut" }}
+        style={reducedMotion ? { background: "radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%)" } : undefined}
       />
       <motion.div
         className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full blur-3xl pointer-events-none opacity-40"
-        animate={{
+        animate={reducedMotion ? undefined : {
           background: [
             "radial-gradient(circle, rgba(139,92,246,0.08) 0%, transparent 70%)",
             "radial-gradient(circle, rgba(99,102,241,0.08) 0%, transparent 70%)",
@@ -114,11 +120,12 @@ export default function Hero() {
           ],
           scale: [1, 1.1, 1],
         }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+        transition={reducedMotion ? undefined : { duration: 8, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+        style={reducedMotion ? { background: "radial-gradient(circle, rgba(139,92,246,0.08) 0%, transparent 70%)" } : undefined}
       />
 
       {/* Floating particles */}
-      {particles.map((p) => (
+      {!reducedMotion && particles.map((p) => (
         <motion.div
           key={p.id}
           className="absolute rounded-full bg-indigo-400/30 pointer-events-none"
@@ -154,19 +161,19 @@ export default function Hero() {
           {...fadeUpVariant(0.35)}
           className="h-10 flex items-center justify-center mb-6"
         >
-          <AnimatePresence mode="wait">
+          <AnimatePresence mode={reducedMotion ? "sync" : "wait"}>
             <motion.h2
               key={roleIndex}
-              initial={{ opacity: 0, y: 12 }}
+              initial={reducedMotion ? false : { opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -12 }}
-              transition={{ duration: 0.4, ease: "easeInOut" }}
+              exit={reducedMotion ? { opacity: 1 } : { opacity: 0, y: -12 }}
+              transition={reducedMotion ? { duration: 0 } : { duration: 0.4, ease: "easeInOut" }}
               className="text-xl sm:text-2xl font-medium text-zinc-400"
             >
               {roles[roleIndex]}
               <motion.span
-                animate={{ opacity: [1, 0, 1] }}
-                transition={{ duration: 0.8, repeat: Infinity }}
+                animate={reducedMotion ? { opacity: 1 } : { opacity: [1, 0, 1] }}
+                transition={reducedMotion ? { duration: 0 } : { duration: 0.8, repeat: Infinity }}
                 className="ml-1 text-indigo-400"
               >
                 |
@@ -244,8 +251,8 @@ export default function Hero() {
         <motion.button
           onClick={() => scrollTo("#about")}
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1, y: [0, 8, 0] }}
-          transition={{ delay: 1.2, duration: 1.5, repeat: Infinity }}
+          animate={reducedMotion ? { opacity: 1 } : { opacity: 1, y: [0, 8, 0] }}
+          transition={reducedMotion ? { duration: 0 } : { delay: 1.2, duration: 1.5, repeat: Infinity }}
           className="text-zinc-600 hover:text-zinc-400 transition-colors"
           aria-label="Scroll down"
         >

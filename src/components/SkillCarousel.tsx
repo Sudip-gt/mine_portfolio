@@ -1,6 +1,7 @@
 "use client";
 
 import { devIconMap, techStack } from "@/data/portfolio";
+import { useEffect, useState } from "react";
 
 // Only show skills that have a DevIcon mapped
 const carouselSkills = [
@@ -19,10 +20,47 @@ const PERSPECTIVE_MOBILE = RADIUS_MOBILE * 4.5;
 const DURATION = COUNT * 1.8;
 
 export default function SkillCarousel() {
-  const isMobile = typeof window !== "undefined" && window.innerWidth < 640;
+  const [isMobile, setIsMobile] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 639px)");
+    const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    const sync = () => {
+      setIsMobile(mediaQuery.matches);
+      setReducedMotion(motionQuery.matches);
+    };
+
+    sync();
+    mediaQuery.addEventListener("change", sync);
+    motionQuery.addEventListener("change", sync);
+
+    return () => {
+      mediaQuery.removeEventListener("change", sync);
+      motionQuery.removeEventListener("change", sync);
+    };
+  }, []);
+
   const RADIUS = isMobile ? RADIUS_MOBILE : RADIUS_DESKTOP;
   const PERSPECTIVE = isMobile ? PERSPECTIVE_MOBILE : PERSPECTIVE_DESKTOP;
   const cardSize = isMobile ? 90 : 128;
+
+  if (reducedMotion) {
+    return (
+      <div className="flex gap-3 overflow-x-auto pb-2 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+        {carouselSkills.map((tech) => (
+          <div
+            key={tech.name}
+            className="min-w-[112px] shrink-0 rounded-xl border border-zinc-700/50 bg-[#1a1a1a] px-3 py-4 text-center"
+          >
+            <i className={`${devIconMap[tech.name]} text-[1.6rem] leading-none`} />
+            <p className="mt-2 text-[11px] font-medium text-zinc-400 leading-tight">{tech.name}</p>
+          </div>
+        ))}
+      </div>
+    );
+  }
 
   return (
     <>

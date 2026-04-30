@@ -14,11 +14,57 @@ function openCommandPalette() {
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [activeSection, setActiveSection] = useState("#hero");
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const NAVBAR_HEIGHT = 64; // matches h-16
+    // Trigger line: 30% down the viewport — feels natural for "what am I reading"
+    const TRIGGER_RATIO = 0.3;
+
+    let rafId: number | null = null;
+
+    const update = () => {
+      const currentScroll = window.scrollY;
+      const documentHeight = document.documentElement.scrollHeight - window.innerHeight;
+
+      // Scroll progress
+      setScrolled(currentScroll > 20);
+      setScrollProgress(documentHeight > 0 ? (currentScroll / documentHeight) * 100 : 0);
+
+      // Active section — use live getBoundingClientRect for accuracy
+      const triggerY = NAVBAR_HEIGHT + window.innerHeight * TRIGGER_RATIO;
+      let bestHref = navLinks[0]?.href ?? "#hero";
+      let bestDist = Infinity;
+
+      for (const link of navLinks) {
+        const el = document.querySelector(link.href) as HTMLElement | null;
+        if (!el) continue;
+        const rect = el.getBoundingClientRect();
+        // Only consider sections whose top edge is above the trigger line
+        if (rect.top <= triggerY) {
+          const dist = triggerY - rect.top;
+          if (dist < bestDist) {
+            bestDist = dist;
+            bestHref = link.href;
+          }
+        }
+      }
+
+      setActiveSection(bestHref);
+      rafId = null;
+    };
+
+    const onScroll = () => {
+      if (rafId === null) rafId = requestAnimationFrame(update);
+    };
+
+    update(); // run once on mount
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (rafId !== null) cancelAnimationFrame(rafId);
+    };
   }, []);
 
   const handleNavClick = (href: string) => {
@@ -36,6 +82,13 @@ export default function Navbar() {
           : "bg-transparent"
       )}
     >
+      <div className="absolute top-0 left-0 h-[2px] w-full bg-transparent">
+        <div
+          className="h-full bg-gradient-to-r from-indigo-400 via-indigo-500 to-violet-500 transition-[width] duration-150"
+          style={{ width: `${scrollProgress}%` }}
+        />
+      </div>
+
       <nav className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Logo */}
         <button
@@ -52,10 +105,18 @@ export default function Navbar() {
             <li key={link.href}>
               <button
                 onClick={() => handleNavClick(link.href)}
-                className="text-sm text-zinc-400 hover:text-white transition-colors relative group"
+                className={cn(
+                  "text-sm transition-colors relative group",
+                  activeSection === link.href ? "text-white" : "text-zinc-400 hover:text-white"
+                )}
               >
                 {link.label}
-                <span className="absolute -bottom-1 left-0 w-0 h-px bg-indigo-400 transition-all duration-300 group-hover:w-full" />
+                <span
+                  className={cn(
+                    "absolute -bottom-1 left-0 h-px bg-indigo-400 transition-all duration-300",
+                    activeSection === link.href ? "w-full" : "w-0 group-hover:w-full"
+                  )}
+                />
               </button>
             </li>
           ))}
@@ -102,7 +163,10 @@ export default function Navbar() {
               <li key={link.href}>
                 <button
                   onClick={() => handleNavClick(link.href)}
-                  className="w-full text-left text-sm text-zinc-400 hover:text-white transition-colors py-2"
+                  className={cn(
+                    "w-full text-left text-sm transition-colors py-2",
+                    activeSection === link.href ? "text-white" : "text-zinc-400 hover:text-white"
+                  )}
                 >
                   {link.label}
                 </button>

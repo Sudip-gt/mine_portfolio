@@ -10,6 +10,70 @@ const filters = [
   { label: "Frontend", value: "frontend" },
 ];
 
+const mockupThemes = [
+  {
+    shell: "from-slate-900 via-slate-800 to-slate-900",
+    accent: "from-indigo-500/30 to-cyan-400/20",
+    panel: "bg-slate-950/70",
+  },
+  {
+    shell: "from-zinc-900 via-zinc-800 to-zinc-900",
+    accent: "from-emerald-500/25 to-indigo-500/20",
+    panel: "bg-zinc-950/70",
+  },
+  {
+    shell: "from-neutral-900 via-stone-800 to-neutral-900",
+    accent: "from-violet-500/25 to-indigo-500/20",
+    panel: "bg-black/60",
+  },
+];
+
+function ProjectMockup({ title, index, expanded = false }: { title: string; index: number; expanded?: boolean }) {
+  const theme = mockupThemes[index % mockupThemes.length];
+
+  return (
+    <div className={expanded ? "mb-6" : "mb-5 -mx-6 -mt-6"}>
+      <div
+        className={`relative overflow-hidden border-b border-[#27272a] bg-gradient-to-br ${theme.shell} ${expanded ? "rounded-xl border border-[#27272a]" : "rounded-t-2xl"}`}
+      >
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(99,102,241,0.18),transparent_35%),radial-gradient(circle_at_bottom_left,rgba(139,92,246,0.16),transparent_30%)]" />
+        <div className={`absolute inset-x-0 top-0 h-20 bg-gradient-to-r ${theme.accent}`} />
+
+        <div className={`relative ${expanded ? "p-5 sm:p-6" : "p-4"}`}>
+          <div className="flex items-center gap-1.5 mb-4">
+            <span className="h-2.5 w-2.5 rounded-full bg-red-400/70" />
+            <span className="h-2.5 w-2.5 rounded-full bg-yellow-400/70" />
+            <span className="h-2.5 w-2.5 rounded-full bg-green-400/70" />
+          </div>
+
+          <div className={`rounded-xl border border-white/8 ${theme.panel} backdrop-blur-sm ${expanded ? "p-4 sm:p-5" : "p-3"}`}>
+            <div className="flex items-center justify-between gap-3 mb-4">
+              <div>
+                <p className="text-[10px] uppercase tracking-[0.25em] text-zinc-500">Preview</p>
+                <p className="mt-1 text-sm font-semibold text-zinc-100">{title}</p>
+              </div>
+              <div className="h-8 w-8 rounded-lg bg-white/6 border border-white/10" />
+            </div>
+
+            <div className="grid grid-cols-[1.2fr_0.8fr] gap-3">
+              <div className="space-y-2">
+                <div className="h-3 rounded-full bg-white/10" />
+                <div className="h-3 w-5/6 rounded-full bg-white/10" />
+                <div className="h-20 rounded-xl bg-black/30 border border-white/8" />
+              </div>
+              <div className="space-y-2">
+                <div className="h-10 rounded-lg bg-indigo-400/15 border border-indigo-400/15" />
+                <div className="h-10 rounded-lg bg-white/6" />
+                <div className="h-10 rounded-lg bg-white/6" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function ExternalLinkIcon() {
   return (
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -146,10 +210,9 @@ export default function Projects() {
                 onClick={() => setExpandedId(project.id)}
                 className="flex flex-col rounded-2xl bg-[#1a1a1a] border border-[#27272a] hover:border-indigo-500/40 transition-all duration-300 overflow-hidden group cursor-pointer"
               >
-                {/* Card top accent bar */}
-                <div className="h-1 w-full bg-gradient-to-r from-indigo-500 to-violet-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-
                 <div className="flex flex-col flex-1 p-6">
+                  <ProjectMockup title={project.title} index={i} />
+
                   {/* Category badge */}
                   <span className="inline-block mb-3 px-2.5 py-1 text-xs font-medium rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 w-fit capitalize">
                     {project.category}
@@ -237,6 +300,8 @@ export default function Projects() {
                   </button>
 
                   <div className="p-5 sm:p-8">
+                    <ProjectMockup title={expandedProject.title} index={expandedProject.id} expanded />
+
                     {/* Category */}
                     <span className="inline-block mb-4 px-3 py-1 text-xs font-medium rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 capitalize">
                       {expandedProject.category}
