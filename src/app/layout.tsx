@@ -1,3 +1,4 @@
+import CommandPaletteProvider from "@/components/CommandPaletteProvider";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import type { Metadata } from "next";
@@ -55,7 +56,8 @@ export default function RootLayout({
       </head>
       <body className="min-h-full flex flex-col">
           <Navbar />
-          <main className="flex-1">{children}</main>
+          <CommandPaletteProvider />
+          <main className="flex-1" data-search-root>{children}</main>
           <Footer />
         </body>
     </html>

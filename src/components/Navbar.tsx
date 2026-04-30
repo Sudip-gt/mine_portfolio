@@ -5,6 +5,12 @@ import { cn } from "@/lib/utils";
 import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
+function openCommandPalette() {
+  window.dispatchEvent(
+    new KeyboardEvent("keydown", { key: "k", ctrlKey: true, bubbles: true })
+  );
+}
+
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -56,13 +62,27 @@ export default function Navbar() {
         </ul>
 
         {/* CTA Button - Desktop */}
-        <a
+        <div className="hidden md:flex items-center gap-2">
+          <button
+            onClick={openCommandPalette}
+            className="flex items-center gap-1.5 px-3 py-1.5 text-xs text-zinc-400 hover:text-zinc-200 border border-zinc-700 hover:border-zinc-500 rounded-md transition-colors font-mono"
+            aria-label="Open command palette"
+          >
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <rect x="4" y="4" width="16" height="16" rx="2" />
+              <path d="M9 9h6M9 12h6M9 15h4" />
+            </svg>
+            <span>Search</span>
+            <kbd className="ml-1 px-1 py-0.5 bg-zinc-800 rounded text-[10px] text-zinc-500">⌘K</kbd>
+          </button>
+          <a
           href={personalInfo.cvUrl}
           download
           className="hidden md:inline-flex items-center gap-2 px-4 py-2 text-sm font-medium bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg transition-colors"
         >
           Download CV
-        </a>
+          </a>
+        </div>
 
         {/* Mobile Menu Button */}
         <button
