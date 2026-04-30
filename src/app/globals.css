@@ -27,9 +27,19 @@ html {
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  /* Subtle dot-grid texture */
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.028) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* Per-section indigo radial bloom — layers over the dot grid without touching components */
+section {
+  background-image: radial-gradient(ellipse 80% 280px at 50% 0%,
+      rgb(99 102 241 / 0.055) 0%,
+      transparent 100%);
 }
 
 /* Custom scrollbar */
