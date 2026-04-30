@@ -2,7 +2,7 @@
 
 import { projects } from "@/data/portfolio";
 import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 const filters = [
   { label: "All", value: "all" },
@@ -56,6 +56,37 @@ export default function Projects() {
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
+  // Focus trap for the expanded dialog
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const previousFocusRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    if (expandedId !== null) {
+      previousFocusRef.current = document.activeElement as HTMLElement;
+      setTimeout(() => dialogRef.current?.focus(), 0);
+    } else if (previousFocusRef.current) {
+      previousFocusRef.current.focus();
+      previousFocusRef.current = null;
+    }
+  }, [expandedId]);
+
+  const handleDialogKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (e.key !== "Tab" || !dialogRef.current) return;
+    const focusable = dialogRef.current.querySelectorAll<HTMLElement>(
+      'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+    );
+    if (focusable.length === 0) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
   }, []);
 
   return (
@@ -176,7 +207,15 @@ export default function Projects() {
               />
 
               {/* Expanded card */}
-              <div className="fixed inset-0 z-[101] flex items-center justify-center p-4 sm:p-8 pointer-events-none">
+              <div
+                ref={dialogRef}
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="expanded-project-title"
+                tabIndex={-1}
+                onKeyDown={handleDialogKeyDown}
+                className="fixed inset-0 z-[101] flex items-center justify-center p-4 sm:p-8 pointer-events-none outline-none"
+              >
                 <motion.article
                   layoutId={`project-card-${expandedProject.id}`}
                   className="relative w-full max-w-2xl max-h-[85vh] overflow-y-auto rounded-2xl bg-[#1a1a1a] border border-indigo-500/40 shadow-2xl shadow-indigo-500/10 pointer-events-auto"
@@ -204,7 +243,7 @@ export default function Projects() {
                     </span>
 
                     {/* Title */}
-                    <h3 className="text-2xl sm:text-3xl font-bold text-white mb-4">
+                    <h3 id="expanded-project-title" className="text-2xl sm:text-3xl font-bold text-white mb-4">
                       {expandedProject.title}
                     </h3>
 

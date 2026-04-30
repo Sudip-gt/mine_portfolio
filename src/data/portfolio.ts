@@ -30,6 +30,10 @@ export const devIconMap: Record<string, string> = {
     "Git": "devicon-git-plain colored",
     "GitHub": "devicon-github-original",
     "Docker": "devicon-docker-plain colored",
+    "REST APIs": "devicon-fastapi-plain colored",
+    "Mongoose": "devicon-mongoose-original colored",
+    "Cloudinary": "devicon-cloudinary-plain colored",
+    "Supabase": "devicon-supabase-plain colored",
 };
 
 export const techStack = {

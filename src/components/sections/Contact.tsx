@@ -135,10 +135,11 @@ export default function Contact() {
             >
               {/* Name */}
               <div>
-                <label className="block text-sm font-medium text-zinc-300 mb-1.5">
+                <label htmlFor="contact-name" className="block text-sm font-medium text-zinc-300 mb-1.5">
                   Name
                 </label>
                 <input
+                  id="contact-name"
                   {...register("name")}
                   placeholder="Your name"
                   className={cn(
@@ -153,10 +154,11 @@ export default function Contact() {
 
               {/* Email */}
               <div>
-                <label className="block text-sm font-medium text-zinc-300 mb-1.5">
+                <label htmlFor="contact-email" className="block text-sm font-medium text-zinc-300 mb-1.5">
                   Email
                 </label>
                 <input
+                  id="contact-email"
                   {...register("email")}
                   type="email"
                   placeholder="your@email.com"
@@ -172,10 +174,11 @@ export default function Contact() {
 
               {/* Message */}
               <div>
-                <label className="block text-sm font-medium text-zinc-300 mb-1.5">
+                <label htmlFor="contact-message" className="block text-sm font-medium text-zinc-300 mb-1.5">
                   Message
                 </label>
                 <textarea
+                  id="contact-message"
                   {...register("message")}
                   rows={5}
                   placeholder="Tell me about your project or opportunity..."

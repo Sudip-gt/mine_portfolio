@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 
 function openCommandPalette() {
   window.dispatchEvent(
-    new KeyboardEvent("keydown", { key: "k", ctrlKey: true, bubbles: true })
+    new KeyboardEvent("keydown", { key: "k", ctrlKey: true, metaKey: true, bubbles: true })
   );
 }
 
@@ -42,7 +42,7 @@ export default function Navbar() {
           onClick={() => handleNavClick("#hero")}
           className="text-xl font-bold text-white hover:text-indigo-400 transition-colors"
         >
-          {personalInfo.name}
+          {scrolled ? "SP" : personalInfo.name}
           <span className="text-indigo-400">.</span>
         </button>
 

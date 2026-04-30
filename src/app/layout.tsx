@@ -16,9 +16,17 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://sudip.dev"),
   title: "Sudip | Full Stack JavaScript Developer",
   description:
     "Full Stack JavaScript Developer specializing in React, Next.js, Node.js, NestJS, and modern web technologies. Available for freelance and full-time roles.",
+  icons: {
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+    ],
+    shortcut: ["/icon.svg"],
+    apple: ["/icon.svg"],
+  },
   keywords: [
     "Full Stack Developer",
     "JavaScript",
@@ -30,11 +38,32 @@ export const metadata: Metadata = {
     "PostgreSQL",
   ],
   authors: [{ name: "Sudip" }],
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     title: "Sudip | Full Stack JavaScript Developer",
     description:
       "Full Stack JavaScript Developer specializing in React, Next.js, Node.js, and NestJS.",
+    url: "/",
+    siteName: "Sudip's Portfolio",
     type: "website",
+    locale: "en_US",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Sudip — Full Stack JavaScript Developer",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Sudip | Full Stack JavaScript Developer",
+    description:
+      "Full Stack JavaScript Developer specializing in React, Next.js, Node.js, and NestJS.",
+    images: ["/og-image.png"],
   },
 };
 
