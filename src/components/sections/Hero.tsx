@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { personalInfo } from "@/data/portfolio";
+import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useState } from "react";
 
 function GithubIcon({ size = 22 }: { size?: number }) {
   return (
@@ -80,7 +80,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#0f0f0f]"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#0f0f0f] scroll-mt-16"
     >
       {/* Background grid */}
       <div

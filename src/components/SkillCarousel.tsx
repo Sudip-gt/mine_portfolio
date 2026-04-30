@@ -11,14 +11,19 @@ const carouselSkills = [
 ].filter((tech) => devIconMap[tech.name]);
 
 const COUNT = carouselSkills.length;
-// Space each card ~145px apart around the cylinder
-const RADIUS = Math.round((145 * COUNT) / (2 * Math.PI));
-// Perspective well beyond the radius for a natural 3D look
-const PERSPECTIVE = RADIUS * 4.5;
-// ~1.8 seconds per card for a comfortable spin speed
+// Responsive radius: smaller on mobile
+const RADIUS_DESKTOP = Math.round((145 * COUNT) / (2 * Math.PI));
+const RADIUS_MOBILE = Math.round((90 * COUNT) / (2 * Math.PI));
+const PERSPECTIVE_DESKTOP = RADIUS_DESKTOP * 4.5;
+const PERSPECTIVE_MOBILE = RADIUS_MOBILE * 4.5;
 const DURATION = COUNT * 1.8;
 
 export default function SkillCarousel() {
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 640;
+  const RADIUS = isMobile ? RADIUS_MOBILE : RADIUS_DESKTOP;
+  const PERSPECTIVE = isMobile ? PERSPECTIVE_MOBILE : PERSPECTIVE_DESKTOP;
+  const cardSize = isMobile ? 90 : 128;
+
   return (
     <>
       <style>{`
@@ -36,20 +41,20 @@ export default function SkillCarousel() {
         }
       `}</style>
 
-      <div className="relative w-full" style={{ height: 168, perspective: PERSPECTIVE, perspectiveOrigin: "50% 50%" }}>
-        {/* Fade edges so cards gracefully enter/exit */}
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-24 z-10 bg-gradient-to-r from-[#111111] to-transparent" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-24 z-10 bg-gradient-to-l from-[#111111] to-transparent" />
+      <div className="relative w-full" style={{ height: isMobile ? 120 : 168, perspective: PERSPECTIVE, perspectiveOrigin: "50% 50%" }}>
+        {/* Fade edges */}
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-16 sm:w-24 z-10 bg-gradient-to-r from-[#111111] to-transparent" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-16 sm:w-24 z-10 bg-gradient-to-l from-[#111111] to-transparent" />
 
         <div
           className="carousel-track absolute"
           style={{
-            width: 128,
-            height: 128,
+            width: cardSize,
+            height: cardSize,
             top: "50%",
             left: "50%",
-            marginLeft: -64,
-            marginTop: -64,
+            marginLeft: -(cardSize / 2),
+            marginTop: -(cardSize / 2),
           }}
         >
           {carouselSkills.map((tech, i) => {
@@ -57,11 +62,15 @@ export default function SkillCarousel() {
             return (
               <div
                 key={tech.name}
-                className="absolute w-[128px] h-[128px] flex flex-col items-center justify-center gap-2 rounded-2xl border border-zinc-700/50 bg-[#1a1a1a] cursor-default select-none"
-                style={{ transform: `rotateY(${angle}deg) translateZ(${RADIUS}px)` }}
+                className={`absolute flex flex-col items-center justify-center gap-1.5 sm:gap-2 rounded-xl sm:rounded-2xl border border-zinc-700/50 bg-[#1a1a1a] cursor-default select-none`}
+                style={{
+                  width: cardSize,
+                  height: cardSize,
+                  transform: `rotateY(${angle}deg) translateZ(${RADIUS}px)`,
+                }}
               >
-                <i className={`${devIconMap[tech.name]} text-[2rem] leading-none`} />
-                <span className="text-[11px] font-medium text-zinc-400 text-center px-2 leading-tight">
+                <i className={`${devIconMap[tech.name]} text-[1.5rem] sm:text-[2rem] leading-none`} />
+                <span className="text-[9px] sm:text-[11px] font-medium text-zinc-400 text-center px-1.5 sm:px-2 leading-tight">
                   {tech.name}
                 </span>
               </div>

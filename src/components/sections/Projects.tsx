@@ -236,7 +236,7 @@ export default function Projects() {
                     </svg>
                   </button>
 
-                  <div className="p-8">
+                  <div className="p-5 sm:p-8">
                     {/* Category */}
                     <span className="inline-block mb-4 px-3 py-1 text-xs font-medium rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 capitalize">
                       {expandedProject.category}
@@ -291,7 +291,7 @@ export default function Projects() {
                       )}
                       <button
                         onClick={() => setExpandedId(null)}
-                        className="ml-auto text-sm text-zinc-500 hover:text-zinc-300 transition-colors"
+                        className="hidden sm:inline ml-auto text-sm text-zinc-500 hover:text-zinc-300 transition-colors"
                       >
                         Press <kbd className="px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-400 font-mono text-[10px]">Esc</kbd> to close
                       </button>

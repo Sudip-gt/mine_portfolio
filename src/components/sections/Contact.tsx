@@ -40,13 +40,13 @@ const contactDetails = [
   {
     icon: <GithubIcon />,
     label: "GitHub",
-    value: personalInfo.github.replace("https://", ""),
+    value: "sudip-gt",
     href: personalInfo.github,
   },
   {
     icon: <LinkedinIcon />,
     label: "LinkedIn",
-    value: personalInfo.linkedin.replace("https://", ""),
+    value: "Sudip Paudel",
     href: personalInfo.linkedin,
   },
 ];

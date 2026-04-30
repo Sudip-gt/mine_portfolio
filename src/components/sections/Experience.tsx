@@ -34,7 +34,7 @@ export default function Experience() {
         {/* Timeline */}
         <div className="relative">
           {/* Vertical line */}
-          <div className="absolute left-6 top-0 bottom-0 w-px bg-gradient-to-b from-indigo-500 via-[#27272a] to-transparent hidden sm:block" />
+          <div className="absolute left-5 sm:left-6 top-0 bottom-0 w-px bg-gradient-to-b from-indigo-500 via-[#27272a] to-transparent" />
 
           <div className="space-y-10">
             {experience.map((item, i) => (
@@ -44,10 +44,10 @@ export default function Experience() {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.15 }}
-                className="relative sm:pl-20"
+                className="relative pl-16 sm:pl-20"
               >
                 {/* Timeline dot */}
-                <div className="absolute left-0 top-1 hidden sm:flex w-12 h-12 rounded-full bg-[#1a1a1a] border-2 border-indigo-500/60 items-center justify-center text-xl shadow-lg shadow-indigo-500/10">
+                <div className="absolute left-0 top-1 flex w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#1a1a1a] border-2 border-indigo-500/60 items-center justify-center text-lg sm:text-xl shadow-lg shadow-indigo-500/10">
                   {i === 0 ? "🏫" : "💻"}
                 </div>
 
