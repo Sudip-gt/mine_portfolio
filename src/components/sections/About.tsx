@@ -21,6 +21,11 @@ const highlights = [
     desc: "MongoDB, PostgreSQL, MySQL with Prisma & Mongoose ORMs",
   },
   {
+    icon: "🏢",
+    title: "Insurance Domain Knowledge",
+    desc: "Experience with insurance industry practices and requirements",
+  },
+  {
     icon: "📚",
     title: "Continuous Learner",
     desc: "Self-taught, always exploring new tools and best practices",

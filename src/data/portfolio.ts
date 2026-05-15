@@ -2,7 +2,7 @@ export const personalInfo = {
     name: "Sudip",
     title: "Full Stack JavaScript Developer",
     tagline: "Building modern web experiences with React, Next.js & Node.js",
-    bio: "I'm a passionate Full Stack JavaScript Developer with hands-on experience building scalable web applications using the MERN stack, Next.js, and NestJS. I enjoy working across the entire stack — from crafting pixel-perfect UIs to designing robust REST APIs and database schemas.",
+    bio: "I'm a passionate Full Stack JavaScript Developer with hands-on experience building scalable web applications using the MERN stack, Next.js, and NestJS. I have previously worked on insurance domain projects and have a solid understanding of the insurance industry, which helps me build solutions that meet industry-specific requirements. I enjoy working across the entire stack — from crafting pixel-perfect UIs to designing robust REST APIs and database schemas.",
     email: "sudippaudel6561@gmail.com",
     github: "https://github.com/sudip-gt",
     linkedin: "https://www.linkedin.com/in/sudip-paudel-78537b289",
@@ -181,3 +181,4 @@ export const navLinks = [
     { label: "Experience", href: "#experience" },
     { label: "Contact", href: "#contact" },
 ];
+
