@@ -65,7 +65,7 @@ export default function About() {
               progressively expanding into{" "}
               <span className="text-indigo-400 font-medium">Next.js</span> and{" "}
               <span className="text-indigo-400 font-medium">NestJS</span>. I
-              have a strong interest in backend architecture, API design, and
+              have a strong interest in backend architecture, API design, Design Patterns and
               building end-to-end features independently.
             </p>
             <p className="text-zinc-400 leading-relaxed">

@@ -109,11 +109,11 @@ export const projects = [
     },
     {
         id: 6,
-        title: "Profile Management System",
+        title: "Nats Messaging System",
         description:
-            "A full-stack profile management system with user authentication, profile photo upload via Cloudinary, and CRUD operations. Built with a NestJS backend and React frontend.",
+            "A full-stack messaging system with real-time communication capabilities, user authentication, and scalable architecture. Built with a NestJS backend and React frontend.",
         techStack: ["React", "NestJS", "MongoDB", "Cloudinary", "JWT"],
-        githubUrl: "https://github.com/yourusername/profile-management",
+        githubUrl: "https://github.com/yourusername/nats-messaging-system",
         liveUrl: null,
         category: "fullstack",
     },
